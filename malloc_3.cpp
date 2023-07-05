@@ -139,11 +139,15 @@ void* splitBlock(int currentIndex, int pow) {
     MallocMetaData* leftAddr = accessMetaData(freeBlocks[currentIndex]);
     auto leftAddrNum = (unsigned long)leftAddr;
 
+    printf("%d\n", currentIndex);
+
     freeBlocks[currentIndex] = accessMetaData(leftAddr->next);
     if(leftAddr->next != nullptr)  {
         accessMetaData(leftAddr->next->prev);
         setMetaData(&leftAddr->next->prev, nullptr);
     }
+
+
 
     while(currentIndex > pow) {
         auto rightAddrNum = leftAddrNum+(leftAddrNum/2);
@@ -151,6 +155,8 @@ void* splitBlock(int currentIndex, int pow) {
         leftAddr->size/=2;
         currentIndex--;
     }
+
+    printf("after2");
 
     leftAddr->is_free = false;
     setMetaData(&leftAddr->next, nullptr);
@@ -160,7 +166,6 @@ void* splitBlock(int currentIndex, int pow) {
 void* execSmalloc(size_t size) {
     int pow = 0;
     int index = findMinimalBlock(size, &pow);
-    printf("after1\n");
     if(index > MAX_ORDER) {
         return nullptr;
     }
