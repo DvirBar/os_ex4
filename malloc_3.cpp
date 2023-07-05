@@ -181,12 +181,14 @@ void init() {
     auto initHeapHeadAddr = (unsigned long)initHeapHead;
     unsigned long closestMultiple = initHeapHeadAddr/(TOTAL_BLOCK_SIZE)+1;
     unsigned long diff = ((TOTAL_BLOCK_SIZE)*closestMultiple)-initHeapHeadAddr;
+    printf("%ld\n", diff);
     sbrk(diff);
 
-    auto headPtrNum = initHeapHeadAddr+diff;
-    freeBlocks[MAX_ORDER] = (MallocMetaData*)headPtrNum;
+    auto headPtr = sbrk(TOTAL_BLOCK_SIZE);
+    auto headPtrNum = (unsigned long)headPtr;
+    freeBlocks[MAX_ORDER] = (MallocMetaData*)headPtr;
 
-    sbrk(TOTAL_BLOCK_SIZE);
+
 
     for(unsigned long i=0; i<NUM_BLOCKS; i++) {
         MallocMetaData mData {
@@ -202,8 +204,10 @@ void init() {
 
     auto firstBlock = (MallocMetaData*)(headPtrNum);
     firstBlock->prev = nullptr;
+    printf("after1 \n");
     auto lastBlock = (MallocMetaData*)(headPtrNum+((NUM_BLOCKS-1)*BLOCK_SIZE));
     lastBlock->next = nullptr;
+    printf("after2 \n");
 
     hasAllocated = true;
 }
@@ -215,7 +219,6 @@ void* smalloc(size_t size) {
 
     if(!hasAllocated) {
         init();
-        printf("finish");
     }
 
     void* ptr = NULL;
