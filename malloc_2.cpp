@@ -12,7 +12,7 @@ struct MallocMetaData {
     MallocMetaData* prev;
 };
 
-void* listHead = sbrk(0);
+void* listHead;
 bool hasAllocated = false;
 
 void* findFreeBlock(MallocMetaData* head, size_t size) {
@@ -54,8 +54,8 @@ void* insertAndAlloc(MallocMetaData* head, size_t size) {
 }
 
 void* init(size_t size) {
-    auto metaBrk = (MallocMetaData*)sbrk(sizeof(MallocMetaData));
-    if(metaBrk == (void*)-1) {
+    listHead = sbrk(sizeof(MallocMetaData));
+    if(listHead == (void*)-1) {
         return NULL;
     }
 
@@ -66,8 +66,9 @@ void* init(size_t size) {
             nullptr
     };
 
-    *(metaBrk) = newMeta;
-    printf("%ld\n", (unsigned long)metaBrk);
+    auto head = (MallocMetaData*)listHead;
+    *(head) = newMeta;
+    printf("%ld\n", (unsigned long)head);
     printf("%ld\n", (unsigned long)listHead);
     void* pbrk = sbrk(size);
 
