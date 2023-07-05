@@ -80,18 +80,19 @@ void setMetaData(MallocMetaData** srcPtr, MallocMetaData* ptrToSet) {
 //    return pbrk;
 //}
 
-int findMinimalBlock(size_t size, int* pow) {
-    int currentPow = 1;
+int findMinimalBlock(size_t size, int* pow, int* indexBlockSize) {
+    *indexBlockSize = 1;
     int index = 0;
 
-    while(size > currentPow*MIN_BLOCK-sizeof(MallocMetaData)) {
+    while(size > *indexBlockSize*MIN_BLOCK-sizeof(MallocMetaData)) {
         index++;
-        currentPow*=2;
+        *indexBlockSize*=2;
     }
 
     *pow = index;
 
     while(index < MAX_ORDER+1 && accessMetaData(freeBlocks[index]) == nullptr) {
+        *indexBlockSize*=2;
         index++;
     }
 
@@ -137,7 +138,7 @@ void insertToList(MallocMetaData* addr, int index, int size) {
     }
 }
 
-void* splitBlock(int currentIndex, int pow) {
+void* splitBlock(int currentIndex, int pow, int indexBlockSize) {
     MallocMetaData* leftAddr = accessMetaData(freeBlocks[currentIndex]);
     auto leftAddrNum = (unsigned long)leftAddr;
 
@@ -148,7 +149,8 @@ void* splitBlock(int currentIndex, int pow) {
     }
 
     while(currentIndex > pow) {
-        auto rightAddrNum = leftAddrNum+(leftAddrNum/2);
+        indexBlockSize/=2;
+        auto rightAddrNum = leftAddrNum+indexBlockSize;
         insertToList((MallocMetaData*)rightAddrNum, currentIndex-1, (int)leftAddr->size/2);
         leftAddr->size/=2;
         currentIndex--;
@@ -161,12 +163,13 @@ void* splitBlock(int currentIndex, int pow) {
 
 void* execSmalloc(size_t size) {
     int pow = 0;
-    int index = findMinimalBlock(size, &pow);
+    int indexBlockSize = 0;
+    int index = findMinimalBlock(size, &pow, &indexBlockSize);
     if(index > MAX_ORDER) {
         return nullptr;
     }
 
-    return splitBlock(index, pow);
+    return splitBlock(index, pow, indexBlockSize);
 }
 
 
