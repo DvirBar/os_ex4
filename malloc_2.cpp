@@ -220,6 +220,8 @@ size_t _num_allocated_blocks() {
         currentNode = currentNode->next;
     }
 
+    printf("hi");
+
     return counter;
 }
 
