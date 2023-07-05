@@ -3,6 +3,7 @@
 #include <cstring>
 #include <sys/mman.h>
 #include <time.h>
+#include <stdio.h>
 
 #define MAX_ORDER 10
 #define MIN_BLOCK 128
@@ -214,6 +215,7 @@ void* smalloc(size_t size) {
 
     if(!hasAllocated) {
         init();
+        printf("finish");
     }
 
     void* ptr = NULL;
