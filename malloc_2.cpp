@@ -19,10 +19,6 @@ void* findFreeBlock(MallocMetaData* head, size_t size) {
     MallocMetaData* currentNode = head;
 
     while(currentNode != nullptr) {
-        if(size == 100) {
-            printf("%d", (int)currentNode->size);
-        }
-
         if(currentNode->is_free && currentNode->size >= size) {
             return currentNode;
         }

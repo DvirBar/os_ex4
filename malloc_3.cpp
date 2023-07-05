@@ -196,7 +196,7 @@ void init() {
             (MallocMetaData*)(headPtrNum+(i*BLOCK_SIZE))
         };
 
-        *(freeBlocks[MAX_ORDER]+headPtrNum+(i*BLOCK_SIZE)) = mData;
+        *((MallocMetaData*)((unsigned long)freeBlocks[MAX_ORDER]+headPtrNum+(i*BLOCK_SIZE))) = mData;
     }
 
     auto firstBlock = (MallocMetaData*)(headPtrNum);
