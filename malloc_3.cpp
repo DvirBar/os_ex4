@@ -186,6 +186,7 @@ void init() {
 
     auto headPtr = sbrk(TOTAL_BLOCK_SIZE);
     auto headPtrNum = (unsigned long)headPtr;
+    printf("%ld\n", headPtrNum);
     freeBlocks[MAX_ORDER] = (MallocMetaData*)headPtr;
 
 
@@ -199,7 +200,7 @@ void init() {
             (MallocMetaData*)(headPtrNum+(i*BLOCK_SIZE))
         };
 
-        *((MallocMetaData*)((unsigned long)freeBlocks[MAX_ORDER]+headPtrNum+(i*BLOCK_SIZE))) = mData;
+        *((MallocMetaData*)((unsigned long)freeBlocks[MAX_ORDER]+(i*BLOCK_SIZE))) = mData;
     }
 
     auto firstBlock = (MallocMetaData*)(headPtrNum);
