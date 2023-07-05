@@ -17,7 +17,7 @@ bool hasAllocated = false;
 void* findFreeBlock(MallocMetaData* head, size_t size) {
     MallocMetaData* currentNode = head;
 
-    while(currentNode) {
+    while(currentNode != nullptr) {
         if(currentNode->is_free && currentNode->size <= size) {
             return currentNode;
         }
@@ -29,7 +29,7 @@ void* findFreeBlock(MallocMetaData* head, size_t size) {
 
 void* insertAndAlloc(MallocMetaData* head, size_t size) {
     MallocMetaData* currentNode = head;
-    while(currentNode->next) {
+    while(currentNode->next != nullptr) {
         currentNode = currentNode->next;
     }
 
