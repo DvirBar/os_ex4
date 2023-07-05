@@ -26,6 +26,7 @@ TEST_CASE("Sanity", "[malloc2]")
 {
     verify_blocks(0, 0, 0, 0);
     void *base = sbrk(0);
+    printf("before malloc");
     char *a = (char *)smalloc(10);
     printf("after malloc");
     REQUIRE(a != nullptr);
