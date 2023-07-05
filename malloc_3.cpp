@@ -160,6 +160,7 @@ void* splitBlock(int currentIndex, int pow) {
 void* execSmalloc(size_t size) {
     int pow = 0;
     int index = findMinimalBlock(size, &pow);
+    printf("after1\n");
     if(index > MAX_ORDER) {
         return nullptr;
     }
