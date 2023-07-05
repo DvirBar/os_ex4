@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <cmath>
 #include <cstring>
+#include <stdio.h>
 
 using namespace std;
 
@@ -214,6 +215,7 @@ size_t _num_allocated_blocks() {
     size_t counter = 0;
 
     while(currentNode != nullptr) {
+        printf("%d", (int)counter);
         counter++;
         currentNode = currentNode->next;
     }
