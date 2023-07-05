@@ -67,6 +67,7 @@ void* init(size_t size) {
     };
 
     *(metaBrk) = newMeta;
+    printf("%d\n", (int)metaBrk->size);
 
     void* pbrk = sbrk(size);
 
@@ -87,6 +88,7 @@ void* smalloc(size_t size) {
         return init(size);
     }
 
+    printf("after init\n");
     auto ptr = (MallocMetaData*)findFreeBlock((MallocMetaData*)listHead, size);
     if(ptr != (void*)-1) {
         ptr->is_free = false;
