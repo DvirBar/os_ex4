@@ -216,9 +216,10 @@ size_t _size_meta_data() {
     return sizeof(MallocMetaData);
 }
 
-//int main() {
-//    void* ptr = smalloc(10);
-//    sfree(ptr);
-//}
+int main() {
+    void* ptr = smalloc(10);
+    _size_meta_data();
+    sfree(ptr);
+}
 
 
