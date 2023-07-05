@@ -68,8 +68,6 @@ void* init(size_t size) {
 
     auto head = (MallocMetaData*)listHead;
     *(head) = newMeta;
-    printf("%ld\n", (unsigned long)head);
-    printf("%ld\n", (unsigned long)listHead);
     void* pbrk = sbrk(size);
 
     if(pbrk == (void*)-1) {
@@ -218,7 +216,6 @@ size_t _num_allocated_blocks() {
     size_t counter = 0;
 
     while(currentNode != nullptr) {
-        printf("%d\n", (int)currentNode->size);
         counter++;
         currentNode = currentNode->next;
     }
