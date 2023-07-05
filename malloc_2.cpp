@@ -214,13 +214,11 @@ size_t _num_allocated_blocks() {
     auto currentNode = head;
     size_t counter = 0;
 
-    while(currentNode != nullptr) {
+    while(currentNode != NULL) {
         printf("%d", (int)counter);
         counter++;
         currentNode = currentNode->next;
     }
-
-    printf("hi");
 
     return counter;
 }
