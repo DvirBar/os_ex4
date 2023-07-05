@@ -155,7 +155,7 @@ size_t _num_free_blocks() {
     auto currentNode = head;
     size_t counter = 0;
 
-    while(currentNode) {
+    while(currentNode != nullptr) {
         if(currentNode->is_free) {
             counter++;
         }
@@ -171,7 +171,7 @@ size_t _num_free_bytes() {
     auto currentNode = head;
     size_t numBytes = 0;
 
-    while(currentNode) {
+    while(currentNode != nullptr) {
         if(currentNode->is_free) {
             numBytes+=currentNode->size;
         }
@@ -187,7 +187,7 @@ size_t _num_allocated_bytes() {
     auto currentNode = head;
     size_t numBytes = 0;
 
-    while(currentNode) {
+    while(currentNode != nullptr) {
         numBytes+=currentNode->size;
         currentNode = currentNode->next;
     }
@@ -200,7 +200,7 @@ size_t _num_allocated_blocks() {
     auto currentNode = head;
     size_t counter = 0;
 
-    while(currentNode) {
+    while(currentNode != nullptr) {
         counter++;
         currentNode = currentNode->next;
     }
