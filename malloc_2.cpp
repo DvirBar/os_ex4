@@ -67,8 +67,8 @@ void* init(size_t size) {
     };
 
     *(metaBrk) = newMeta;
-    printf("%d\n", (int)metaBrk->size);
-    printf("%d\n", (int)((MallocMetaData*)listHead)->size);
+    printf("%ld\n", (unsigned long)metaBrk);
+    printf("%ld\n", (unsigned long)listHead);
     void* pbrk = sbrk(size);
 
     if(pbrk == (void*)-1) {
