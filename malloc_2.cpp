@@ -151,6 +151,10 @@ void* srealloc(void* oldp, size_t size) {
 }
 
 size_t _num_free_blocks() {
+    if(!hasAllocated) {
+        return 0;
+    }
+
     auto head = (MallocMetaData*)listHead;
     auto currentNode = head;
     size_t counter = 0;
@@ -167,6 +171,9 @@ size_t _num_free_blocks() {
 }
 
 size_t _num_free_bytes() {
+    if(!hasAllocated) {
+        return 0;
+    }
     auto head = (MallocMetaData*)listHead;
     auto currentNode = head;
     size_t numBytes = 0;
@@ -183,6 +190,9 @@ size_t _num_free_bytes() {
 }
 
 size_t _num_allocated_bytes() {
+    if(!hasAllocated) {
+        return 0;
+    }
     auto head = (MallocMetaData*)listHead;
     auto currentNode = head;
     size_t numBytes = 0;
@@ -196,6 +206,9 @@ size_t _num_allocated_bytes() {
 }
 
 size_t _num_allocated_blocks() {
+    if(!hasAllocated) {
+        return 0;
+    }
     auto head = (MallocMetaData*)listHead;
     auto currentNode = head;
     size_t counter = 0;
