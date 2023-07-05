@@ -100,6 +100,8 @@ int findMinimalBlock(size_t size, int* pow) {
 
 void insertToList(MallocMetaData* addr, int index, int size) {
     MallocMetaData* currentNode = accessMetaData(freeBlocks[index]);
+    addr->size = size;
+    printf("%d\n", (int)addr->size);
 
     if(currentNode == nullptr) {
         freeBlocks[index] = addr;
@@ -131,27 +133,17 @@ void insertToList(MallocMetaData* addr, int index, int size) {
         accessMetaData(currentNode->next);
         setMetaData(&currentNode->next, addr);
     }
-
-    addr->size = size;
 }
 
 void* splitBlock(int currentIndex, int pow) {
     MallocMetaData* leftAddr = accessMetaData(freeBlocks[currentIndex]);
     auto leftAddrNum = (unsigned long)leftAddr;
 
-    printf("%d\n", currentIndex);
-    printf("%d\n", (int)leftAddr->size);
-
     freeBlocks[currentIndex] = accessMetaData(leftAddr->next);
-    printf("a");
     if(leftAddr->next != nullptr)  {
         accessMetaData(leftAddr->next->prev);
-        printf("b");
         setMetaData(&leftAddr->next->prev, nullptr);
-        printf("c");
     }
-
-
 
     while(currentIndex > pow) {
         auto rightAddrNum = leftAddrNum+(leftAddrNum/2);
@@ -159,8 +151,6 @@ void* splitBlock(int currentIndex, int pow) {
         leftAddr->size/=2;
         currentIndex--;
     }
-
-    printf("after2");
 
     leftAddr->is_free = false;
     setMetaData(&leftAddr->next, nullptr);
