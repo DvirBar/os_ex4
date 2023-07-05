@@ -215,7 +215,7 @@ size_t _num_allocated_blocks() {
     size_t counter = 0;
 
     while(currentNode != nullptr) {
-        printf("%ld", (unsigned long)currentNode);
+        printf("%d\n", (int)currentNode->size);
         counter++;
         currentNode = currentNode->next;
     }
