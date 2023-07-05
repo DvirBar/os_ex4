@@ -218,19 +218,19 @@ size_t _size_meta_data() {
     return sizeof(MallocMetaData);
 }
 
-int main() {
-    void* ptr = smalloc(16);
-    void* ptr2 = smalloc(28);
-    sfree(ptr2);
-    void* ptr3 = smalloc(28);
-    int* ptr4 = (int*)scalloc(2,sizeof(int));
-
-
-    cout << ptr << endl;
-    cout << ptr2 << endl;
-    cout << ptr3 << endl;
-    cout << _size_meta_data() << endl;
-    cout << ptr4[1] << endl;
-}
+//int main() {
+//    void* ptr = smalloc(16);
+//    void* ptr2 = smalloc(28);
+//    sfree(ptr2);
+//    void* ptr3 = smalloc(28);
+//    int* ptr4 = (int*)scalloc(2,sizeof(int));
+//
+//
+//    cout << ptr << endl;
+//    cout << ptr2 << endl;
+//    cout << ptr3 << endl;
+//    cout << _size_meta_data() << endl;
+//    cout << ptr4[1] << endl;
+//}
 
 

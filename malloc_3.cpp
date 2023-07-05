@@ -205,7 +205,7 @@ void init() {
     lastBlock->next = nullptr;
 
     hasAllocated = true;
-};
+}
 
 void* smalloc(size_t size) {
     if(size==0 || size>pow(10,8)) {
@@ -317,7 +317,7 @@ void sfree(void* p) {
     }
 
     int index = 0;
-    int currentSize = MIN_BLOCK;
+    size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
     ptr--;
     accessMetaData(ptr);
@@ -343,7 +343,7 @@ void sfree(void* p) {
     ptr->is_free = true;
 }
 
-bool isMergeable(MallocMetaData* oldp, int index, int requestedSize) {
+bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
     bool buddyFound = false;
     MallocMetaData* lastLeftBlock = oldp;
     size_t size = lastLeftBlock->size;
@@ -379,9 +379,9 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     if(oldp->size >= size) {
         return oldp;
     }
-    int oldpCurrentSize = MIN_BLOCK;
+    size_t oldpCurrentSize = MIN_BLOCK;
     int oldpIndex = 0;
-    int currentSize = MIN_BLOCK;
+    size_t currentSize = MIN_BLOCK;
     int index = 0;
 
     while(oldpCurrentSize < oldp->size) {
