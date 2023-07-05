@@ -140,6 +140,7 @@ void* splitBlock(int currentIndex, int pow) {
     auto leftAddrNum = (unsigned long)leftAddr;
 
     printf("%d\n", currentIndex);
+    printf("%d\n", (int)leftAddr->size);
 
     freeBlocks[currentIndex] = accessMetaData(leftAddr->next);
     if(leftAddr->next != nullptr)  {
