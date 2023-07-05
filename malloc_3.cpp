@@ -100,8 +100,10 @@ int findMinimalBlock(size_t size, int* pow) {
 
 void insertToList(MallocMetaData* addr, int index, int size) {
     MallocMetaData* currentNode = accessMetaData(freeBlocks[index]);
-    addr->size = size;
+    printf("before\n");
     printf("%d\n", (int)addr->size);
+    addr->size = size;
+
 
     if(currentNode == nullptr) {
         freeBlocks[index] = addr;
