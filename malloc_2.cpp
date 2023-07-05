@@ -1,7 +1,6 @@
 #include <unistd.h>
 #include <cmath>
 #include <cstring>
-#include <iostream>
 
 using namespace std;
 
@@ -124,7 +123,6 @@ void sfree(void* p) {
     }
 
     auto pMeta = ((MallocMetaData*)p-1);
-    cout << "p meta " << pMeta << endl;
     pMeta->is_free = true;
 }
 
@@ -219,18 +217,8 @@ size_t _size_meta_data() {
 }
 
 //int main() {
-//    void* ptr = smalloc(16);
-//    void* ptr2 = smalloc(28);
-//    sfree(ptr2);
-//    void* ptr3 = smalloc(28);
-//    int* ptr4 = (int*)scalloc(2,sizeof(int));
-//
-//
-//    cout << ptr << endl;
-//    cout << ptr2 << endl;
-//    cout << ptr3 << endl;
-//    cout << _size_meta_data() << endl;
-//    cout << ptr4[1] << endl;
+//    void* ptr = smalloc(10);
+//    sfree(ptr);
 //}
 
 
