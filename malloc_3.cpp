@@ -376,10 +376,13 @@ void sfree(void* p) {
         numAllocatedBytes -= ptr->size;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
     }
+    if(index == MAX_ORDER) {
+        cout << "my index " << index << endl;
+        cout << "last!!!! " << freeBlocks[index]->size << endl;
+    }
 
 
     numAllocatedBlocks--;
-
 }
 
 bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
