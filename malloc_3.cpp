@@ -350,14 +350,15 @@ void sfree(void* p) {
     cout << "b" << ptr->size << endl;
     accessMetaData(ptr);
 
-
+    cout << "c" << ptr->size << endl;
     if(ptr->size < BLOCK_SIZE) {
         while(currentSize < ptr->size) {
             currentSize*=2;
             index++;
         }
-
+        cout << "d" << ptr->size << endl;
         MallocMetaData* blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
+        cout << "e" << ptr->size << endl;
 //        printf("n1 %d, size %d\n", (int)numAllocatedBytes, (int)ptr->size);
         numAllocatedBytes -= ptr->size;
         numAllocatedBytes += sizeof (MallocMetaData);
