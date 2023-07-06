@@ -454,11 +454,11 @@ void* srealloc(void* oldp, size_t size) {
     MallocMetaData* newPtr;
     // TODO: can srealloc init the data struct when oldp isn't null?
     auto ptr = ((MallocMetaData*)oldp)-1;
-    if(size < BLOCK_SIZE) {
+
+    cout << "testing here" << endl;
+    if(size <= BLOCK_SIZE) {
         return reallocHeap(ptr, size);
     }
-
-
 
     if(ptr->size == size) {
         return oldp;
