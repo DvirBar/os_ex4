@@ -188,9 +188,7 @@ TEST_CASE("test all sizes", "[malloc3]")
     ptr = smalloc(128*pow(2,10) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,1,0,0);
     sfree(ptr);
-    cout << "here11" << endl;
     _num_allocated_bytes();
-    cout << "here12" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
 
 }
@@ -318,20 +316,21 @@ TEST_CASE("srealloc test", "[malloc3]")
     void* ptr1 = smalloc(40);
     REQUIRE(ptr1 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
-
+    cout << "test1" << endl;
     // Reallocate to a larger size
     void* ptr2 = srealloc(ptr1, 60);
     REQUIRE(ptr2 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
-
+    cout << "test1" << endl;
     // Reallocate to a smaller size
     void* ptr3 = srealloc(ptr2, 30);
     REQUIRE(ptr3 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
-
+    cout << "test1" << endl;
     // Free the block
     sfree(ptr3);
     verify_block_by_order(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0);
+    cout << "test1" << endl;
 }
 
 TEST_CASE("scalloc test", "[malloc3]")
