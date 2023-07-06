@@ -473,11 +473,11 @@ size_t _num_free_bytes() {
 }
 
 size_t _num_allocated_bytes() {
-    return numAllocatedBytes;
+    return numAllocatedBytes+_num_free_bytes();
 }
 
 size_t _num_allocated_blocks() {
-    return numAllocatedBlocks;
+    return numAllocatedBlocks+_num_free_blocks();
 }
 
 size_t _num_meta_data_bytes() {
