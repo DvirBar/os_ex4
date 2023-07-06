@@ -240,7 +240,7 @@ void* smalloc(size_t size) {
             nullptr,
             nullptr
         };
-        *(mmapStart) = mData;
+        mmapStart[0] = mData;
         printf("started3\n");
         ptr = mmapStart+1;
         numAllocatedBytes += size;
