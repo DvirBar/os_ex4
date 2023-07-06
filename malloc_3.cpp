@@ -364,6 +364,7 @@ void sfree(void* p) {
     numAllocatedBlocks--;
     ptr->is_free = true;
 
+    printf("%d", (int)numAllocatedBytes);
     map();
 }
 
