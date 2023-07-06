@@ -376,10 +376,10 @@ void sfree(void* p) {
         numAllocatedBytes -= ptr->size;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
     }
-    if(index == MAX_ORDER) {
-        cout << "my index " << index << endl;
-        cout << "last!!!! " << freeBlocks[index]->size << endl;
-    }
+//    if(index == MAX_ORDER) {
+//        cout << "my index " << index << endl;
+//        cout << "last!!!! " << freeBlocks[index]->size << endl;
+//    }
 
 
     numAllocatedBlocks--;
@@ -500,19 +500,19 @@ size_t _num_free_bytes() {
 
     MallocMetaData* currentNode;
     size_t numFreeBytes = 0;
-//    int internal = 0;
+    int internal = 0;
     for(int i=0; i <= MAX_ORDER; i++) {
         currentNode = freeBlocks[i];
-
+        cout << "current index: " << i << endl;
         while(currentNode != nullptr) {
-//            cout << "internal: " << internal << endl;
-//            internal++;
+            cout << "internal: " << internal << endl;
+            internal++;
             numFreeBytes += currentNode->size - sizeof(MallocMetaData);
-//            cout << "after" << endl;
+            cout << "after" << endl;
             currentNode = currentNode->next;
         }
 
-//        internal = 0;
+        internal = 0;
     }
 
     return numFreeBytes;
