@@ -412,6 +412,7 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
 
 MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     if(oldp->size >= size) {
+        cout << "here2" << endl;
         return oldp;
     }
     size_t oldpCurrentSize = MIN_BLOCK;
@@ -428,6 +429,8 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
         currentSize*=2;
         index++;
     }
+
+    cout << "here2" << endl;
 
     if(isMergeable(oldp, oldpIndex, size)) {
         numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
