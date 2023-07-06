@@ -348,7 +348,7 @@ void sfree(void* p) {
     if(ptr->is_free) {
         return;
     }
-    cout << "here3" << endl;
+
     if(ptr->size <= BLOCK_SIZE) {
         while(currentSize < ptr->size) {
             currentSize*=2;
@@ -456,7 +456,6 @@ void* srealloc(void* oldp, size_t size) {
     MallocMetaData* newPtr;
     // TODO: can srealloc init the data struct when oldp isn't null?
     auto ptr = ((MallocMetaData*)oldp)-1;
-    cout << "size !!" << ptr->size << endl;
     accessMetaData(ptr);
 
     cout << ptr->size << endl;
@@ -478,7 +477,7 @@ void* srealloc(void* oldp, size_t size) {
 
 size_t _num_free_blocks() {
     if(!hasAllocated) {
-        return 0;
+        return NUM_BLOCKS;
     }
 
     MallocMetaData* currentNode;
