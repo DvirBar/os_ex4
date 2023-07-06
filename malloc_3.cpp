@@ -316,10 +316,10 @@ MallocMetaData* mergeBlocks(MallocMetaData* ptr, int* index, int maxSize) {
 
     do {
         auto buddy = (MallocMetaData*)((unsigned long)lastLeftBlock^(lastLeftBlock->size));
-        accessMetaData(buddy);
         buddyFound = findAndRemove(buddy, *index);
 
         if(buddyFound) {
+            accessMetaData(buddy);
             if(lastLeftBlock < buddy) {
                 lastLeftBlock->size*=2;
             } else {
@@ -347,7 +347,7 @@ void sfree(void* p) {
     if(ptr->is_free) {
         return;
     }
-
+    cout << "here3" << endl;
     if(ptr->size <= BLOCK_SIZE) {
         while(currentSize < ptr->size) {
             currentSize*=2;
