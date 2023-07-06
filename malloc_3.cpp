@@ -105,7 +105,7 @@ void insertToList(MallocMetaData* addr, int index, int size) {
     addr->cookie = cookie;
     addr->size = size;
 
-    printf("%d", size);
+    printf("index: %d, size: %d\n", index, size);
 
     if(currentNode == nullptr) {
         freeBlocks[index] = addr;
