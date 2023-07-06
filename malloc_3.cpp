@@ -312,7 +312,6 @@ MallocMetaData* mergeBlocks(MallocMetaData* ptr, int index, int maxSize) {
         index++;
     } while (buddyFound && index < maxSize);
 
-    numAllocatedBytes += lastLeftBlock->size-sizeof (MallocMetaData);
     return lastLeftBlock;
 }
 
@@ -333,9 +332,9 @@ void sfree(void* p) {
             currentSize*=2;
             index++;
         }
-
-        numAllocatedBytes -= ptr->size+sizeof(MallocMetaData);
+        printf("%d", (int)ptr->size);
         MallocMetaData* blockToInsert = mergeBlocks(ptr, index, MAX_ORDER);
+        numAllocatedBytes -= ptr->size+sizeof(MallocMetaData);
 
         insertToList(blockToInsert, index, blockToInsert->size);
     } else {
@@ -401,7 +400,10 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
 
     if(isMergeable(oldp, oldpIndex, size)) {
         numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
-        return mergeBlocks(oldp, oldpIndex, index)+1;
+
+        MallocMetaData* addr = mergeBlocks(oldp, oldpIndex, index);
+        numAllocatedBytes += addr->size-sizeof (MallocMetaData);
+        return addr+1;
     }
 
     void* ptr = smalloc(size);

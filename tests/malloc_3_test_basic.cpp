@@ -111,11 +111,9 @@ TEST_CASE("Challenge 0 - Memory Utilization", "[malloc3]")
     void *ptr3 = smalloc(50);
     REQUIRE(ptr3 != nullptr);
     verify_block_by_order(0,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,1,MAX_ELEMENT_SIZE+100);
-    printf("after1");
     // Free the first small block
     sfree(ptr1);
     verify_block_by_order(1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,1,MAX_ELEMENT_SIZE+100);
-    printf("after2");
 
     // Allocate another small block
     void *ptr4 = smalloc(40);
