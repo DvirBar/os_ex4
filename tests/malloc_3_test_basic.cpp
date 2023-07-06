@@ -324,6 +324,7 @@ TEST_CASE("srealloc test", "[malloc3]")
     cout << "test1" << endl;
     // Reallocate to a smaller size
     void* ptr3 = srealloc(ptr2, 30);
+    cout << "test2" << endl;
     REQUIRE(ptr3 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
     cout << "test1" << endl;
