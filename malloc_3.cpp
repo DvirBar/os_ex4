@@ -177,7 +177,7 @@ void* splitBlock(int currentIndex, int pow) {
     leftAddr->is_free = false;
     setMetaData(&leftAddr->next, nullptr);
     numAllocatedBytes += leftAddr->size-sizeof(MallocMetaData);
-    cout << leftAddr->size << endl;
+    cout << "a size" << leftAddr->size << endl;
     return leftAddr+1;
 }
 
@@ -345,7 +345,9 @@ void sfree(void* p) {
     int index = 0;
     size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
+    cout << "a" << ptr->size << endl;
     ptr--;
+    cout << "b" << ptr->size << endl;
     accessMetaData(ptr);
 
 
@@ -356,10 +358,10 @@ void sfree(void* p) {
         }
 
         MallocMetaData* blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
-        printf("n1 %d, size %d\n", (int)numAllocatedBytes, (int)ptr->size);
+//        printf("n1 %d, size %d\n", (int)numAllocatedBytes, (int)ptr->size);
         numAllocatedBytes -= ptr->size;
         numAllocatedBytes += sizeof (MallocMetaData);
-        printf("n2 %d\n", (int)numAllocatedBytes);
+//        printf("n2 %d\n", (int)numAllocatedBytes);
         insertToList(blockToInsert, index, blockToInsert->size);
     } else {
         numAllocatedBytes -= ptr->size;
