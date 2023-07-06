@@ -28,25 +28,6 @@ MallocMetaData* freeBlocks[MAX_ORDER+1];
 size_t numAllocatedBytes = 0;
 int numAllocatedBlocks = 0;
 
-
-void map() {
-    MallocMetaData* currentNode;
-    int numBlocks = 0;
-    printf("----------start------------\n");
-    for(int i=0; i<=MAX_ORDER; i++) {
-        currentNode = freeBlocks[i];
-        while(currentNode != nullptr) {
-            numBlocks++;
-            currentNode = currentNode->next;
-        }
-
-        printf("Order %d: %d\n", i, numBlocks);
-        numBlocks = 0;
-    }
-
-    printf("-----------finish-----------\n");
-}
-
 MallocMetaData* accessMetaData(MallocMetaData* ptr) {
     if(ptr != nullptr && ptr->cookie != cookie) {
         exit(0xdeadbeef);
@@ -61,45 +42,6 @@ void setMetaData(MallocMetaData** srcPtr, MallocMetaData* ptrToSet) {
 
     *srcPtr = ptrToSet;
 }
-
-
-//void* findFreeBlock(MallocMetaData* head, size_t size) {
-//    MallocMetaData* currentNode = head;
-//
-//    while(currentNode) {
-//        if(currentNode->is_free && currentNode->size <= size) {
-//            return currentNode;
-//        }
-//        currentNode = accessMetaData(currentNode)->next;
-//    }
-//
-//    return (void*)-1;
-//}
-
-//void* insertAndAlloc(MallocMetaData* head, size_t size) {
-//    MallocMetaData* currentNode = head;
-//    while(currentNode->next) {
-//        currentNode = currentNode->next;
-//    }
-//
-//    auto newMetaData = (MallocMetaData*)sbrk(sizeof(MallocMetaData));
-//    if(newMetaData == (void*)-1) {
-//        return (void*)-1;
-//    }
-//
-//    void* pbrk = sbrk(size);
-//    if(pbrk == (void*)-1) {
-//        return (void*)-1;
-//    }
-//
-//    currentNode->next = newMetaData;
-//    newMetaData->is_free = false;
-//    newMetaData->size = size;
-//    newMetaData->next = nullptr;
-//    newMetaData->prev = currentNode;
-//
-//    return pbrk;
-//}
 
 int findMinimalBlock(size_t size, int* pow, int* minBlockSize) {
     *minBlockSize = 1;
@@ -343,7 +285,6 @@ void sfree(void* p) {
     size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
     ptr--;
-    cout << ptr->size << endl;
     accessMetaData(ptr);
     if(ptr->is_free) {
         return;
@@ -437,11 +378,9 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
 
     void* ptr = smalloc(size);
     if(ptr != NULL) {
-        cout << "size " << oldp->size << endl;
         oldp++;
         sfree(oldp);
     }
-    cout << "here" << endl;
 
     return (MallocMetaData*)ptr;
 }
@@ -458,9 +397,7 @@ void* srealloc(void* oldp, size_t size) {
     auto ptr = ((MallocMetaData*)oldp)-1;
     accessMetaData(ptr);
 
-    cout << ptr->size << endl;
     if(size <= BLOCK_SIZE) {
-        cout << "testing here" << endl;
         return reallocHeap(ptr, size);
     }
 

@@ -5,9 +5,7 @@
 #include <cmath>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <iostream>
 
-using namespace std;
 
 void performCorruption() {
     // Allocate memory
@@ -99,6 +97,7 @@ TEST_CASE("Challenge 0 - Memory Utilization", "[malloc3]")
 {
     // Initial state
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
     // Allocate small block (order 0)
     void *ptr1 = smalloc(40);
     REQUIRE(ptr1 != nullptr);
@@ -125,17 +124,14 @@ TEST_CASE("Challenge 0 - Memory Utilization", "[malloc3]")
     void *ptr4 = smalloc(40);
     REQUIRE(ptr4 != nullptr);
     verify_block_by_order(0,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,1,MAX_ELEMENT_SIZE+100);
+
     // Free all blocks
     sfree(ptr3);
-    verify_block_by_order(1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,1,MAX_ELEMENT_SIZE+100);
     sfree(ptr4);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,1,MAX_ELEMENT_SIZE+100);
     sfree(ptr1); //free again
-    printf("after1 \n");
     sfree(ptr2);
-    printf("after2 \n");
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
-    printf("after3\n");
 //    verify_size_with_large_blocks(base, 0);
 //    verify_size(base);
 }
@@ -188,9 +184,7 @@ TEST_CASE("test all sizes", "[malloc3]")
     ptr = smalloc(128*pow(2,10) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,1,0,0);
     sfree(ptr);
-    _num_allocated_bytes();
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
-
 }
 
 TEST_CASE("Finding buddies test", "[malloc3]")
@@ -316,18 +310,20 @@ TEST_CASE("srealloc test", "[malloc3]")
     void* ptr1 = smalloc(40);
     REQUIRE(ptr1 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
+
     // Reallocate to a larger size
     void* ptr2 = srealloc(ptr1, 60);
     REQUIRE(ptr2 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
+
     // Reallocate to a smaller size
     void* ptr3 = srealloc(ptr2, 30);
     REQUIRE(ptr3 != nullptr);
     verify_block_by_order(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 31, 0, 0, 0);
+
     // Free the block
     sfree(ptr3);
     verify_block_by_order(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0);
-
 }
 
 TEST_CASE("scalloc test", "[malloc3]")
