@@ -133,7 +133,6 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
     }
 
     while(accessMetaData(currentNode->next) != nullptr && currentNode < addr) {
-        cout << "iter" << endl;
         currentNode = currentNode->next;
     }
 
@@ -144,6 +143,7 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
         if(accessMetaData(currentNode->prev) != nullptr) {
             setMetaData(&currentNode->prev->next, addr);
         } else {
+            cout << "set start" << endl;
             freeBlocks[index] = addr;
         }
 
@@ -153,7 +153,6 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
     } else {
         setMetaData(&addr->next, nullptr);
         setMetaData(&addr->prev, currentNode);
-        accessMetaData(currentNode->next);
         setMetaData(&currentNode->next, addr);
     }
 }
