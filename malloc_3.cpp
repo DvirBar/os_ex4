@@ -116,7 +116,7 @@ int findMinimalBlock(size_t size, int* pow, int* minBlockSize) {
     return index;
 }
 
-void insertToList(MallocMetaData* addr, int index, int size) {
+void insertToList(MallocMetaData* addr, int index, size_t size) {
     MallocMetaData* currentNode = accessMetaData(freeBlocks[index]);
 
     addr->cookie = cookie;
@@ -352,7 +352,7 @@ void sfree(void* p) {
         }
 
         MallocMetaData* blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
-        printf("n1 %d\n", (int)numAllocatedBytes);
+        printf("n1 %d, size %d\n", (int)numAllocatedBytes, (int)ptr->size);
         numAllocatedBytes -= ptr->size;
         numAllocatedBytes += sizeof (MallocMetaData);
         printf("n2 %d\n", (int)numAllocatedBytes);
