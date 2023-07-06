@@ -43,6 +43,7 @@ void performCorruption() {
     do                                                                                                                 \
     {                                                                                                                  \
         REQUIRE(_num_allocated_blocks() == allocated_blocks);                                                          \
+        REQUIRE(_num_allocated_blocks() == free_blocks); \
         REQUIRE(_num_free_blocks() == free_blocks); \
         REQUIRE(_num_allocated_bytes() == (allocated_bytes));                                              \
                                                                            \
