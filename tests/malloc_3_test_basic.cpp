@@ -5,7 +5,9 @@
 #include <cmath>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <iostream>
 
+using namespace std;
 
 void performCorruption() {
     // Allocate memory
@@ -146,46 +148,57 @@ TEST_CASE("test all sizes", "[malloc3]")
     ptr = smalloc(128*pow(2,0) -64);
     verify_block_by_order(1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,1) -64);
     verify_block_by_order(0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,2) -64);
     verify_block_by_order(0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,3) -64);
     verify_block_by_order(0,0,0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,4) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,1,1,1,0,1,0,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,5) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,6) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,7) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,8) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,9) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,31,0,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
     ptr = smalloc(128*pow(2,10) -64);
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,1,0,0);
     sfree(ptr);
+    cout << "here" << endl;
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
 }
 
