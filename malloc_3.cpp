@@ -354,7 +354,7 @@ void sfree(void* p) {
             currentSize*=2;
             index++;
         }
-        cout << ptr->size << endl;
+        cout << "my size " << ptr->size << endl;
         size_t prevSize = ptr->size;
         MallocMetaData* blockToInsert;
 
