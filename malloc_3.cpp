@@ -355,7 +355,6 @@ void sfree(void* p) {
         numAllocatedBytes -= ptr->size;
         numAllocatedBytes += sizeof (MallocMetaData);
         insertToList(blockToInsert, index, blockToInsert->size);
-        map();
     } else {
         numAllocatedBytes -= ptr->size;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
