@@ -101,6 +101,7 @@ TEST_CASE("Challenge 0 - Memory Utilization", "[malloc3]")
     void *ptr1 = smalloc(40);
     REQUIRE(ptr1 != nullptr);
 //    verify_size(base);
+    printf("before1");
     verify_block_by_order(1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,31,0,0,0);
     printf("after1");
     // Allocate large block (order 10)
