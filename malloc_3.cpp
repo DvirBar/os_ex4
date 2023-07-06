@@ -380,7 +380,7 @@ void sfree(void* p) {
 //        cout << "my index " << index << endl;
 //        cout << "last!!!! " << freeBlocks[index]->size << endl;
 //    }
-
+    cout << "finish" << endl;
 
     numAllocatedBlocks--;
 }
@@ -497,7 +497,7 @@ size_t _num_free_bytes() {
     if(!hasAllocated) {
         return 0;
     }
-
+    cout << "start!!!" << endl;
     MallocMetaData* currentNode;
     size_t numFreeBytes = 0;
     int internal = 0;
