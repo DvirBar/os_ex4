@@ -345,22 +345,21 @@ void sfree(void* p) {
     int index = 0;
     size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
-    cout << "a" << ptr->size << endl;
     ptr--;
-    cout << "b" << ptr->size << endl;
     accessMetaData(ptr);
 
-    cout << "c" << ptr->size << endl;
+
+
     if(ptr->size < BLOCK_SIZE) {
         while(currentSize < ptr->size) {
             currentSize*=2;
             index++;
         }
-        cout << "d" << ptr->size << endl;
+
+        size_t prevSize = ptr->size;
         MallocMetaData* blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
-        cout << "e" << ptr->size << endl;
 //        printf("n1 %d, size %d\n", (int)numAllocatedBytes, (int)ptr->size);
-        numAllocatedBytes -= blockToInsert->size;
+        numAllocatedBytes -= prevSize;
         numAllocatedBytes += sizeof (MallocMetaData);
 //        printf("n2 %d\n", (int)numAllocatedBytes);
         insertToList(blockToInsert, index, blockToInsert->size);
