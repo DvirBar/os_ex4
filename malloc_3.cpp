@@ -343,15 +343,10 @@ void sfree(void* p) {
     size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
     ptr--;
+    accessMetaData(ptr);
     if(ptr->is_free) {
-        cout << "here" << endl;
         return;
     }
-
-    accessMetaData(ptr);
-
-
-
 
     if(ptr->size < BLOCK_SIZE) {
         while(currentSize < ptr->size) {
@@ -368,6 +363,7 @@ void sfree(void* p) {
         insertToList(blockToInsert, index, blockToInsert->size);
     } else {
         numAllocatedBytes -= ptr->size;
+        cout << ptr->size << endl;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
     }
 
