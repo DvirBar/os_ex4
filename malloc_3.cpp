@@ -344,8 +344,10 @@ void sfree(void* p) {
     auto ptr = (MallocMetaData*)p;
     ptr--;
     if(ptr->is_free) {
+        cout << "here" << endl;
         return;
     }
+
     accessMetaData(ptr);
 
 
