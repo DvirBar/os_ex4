@@ -295,6 +295,7 @@ MallocMetaData* mergeBlocks(MallocMetaData* ptr, int index, int maxSize) {
     bool buddyFound = false;
     MallocMetaData* lastLeftBlock = ptr;
 
+    printf("b%d\n", index);
     do {
         auto buddy = (MallocMetaData*)((unsigned long)lastLeftBlock^(lastLeftBlock->size));
         accessMetaData(buddy);
@@ -311,7 +312,7 @@ MallocMetaData* mergeBlocks(MallocMetaData* ptr, int index, int maxSize) {
 
         index++;
     } while (buddyFound && index < maxSize);
-
+    printf("a%d\n", index);
     return lastLeftBlock;
 }
 
