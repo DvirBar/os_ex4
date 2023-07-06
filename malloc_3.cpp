@@ -493,6 +493,7 @@ size_t _num_free_bytes() {
     MallocMetaData* currentNode;
     size_t numFreeBytes = 0;
     for(int i=0; i <= MAX_ORDER; i++) {
+        cout << i << endl;
         currentNode = freeBlocks[i];
         while(currentNode != nullptr) {
             numFreeBytes += currentNode->size - sizeof(MallocMetaData);
