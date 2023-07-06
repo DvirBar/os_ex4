@@ -29,6 +29,7 @@ int numAllocatedBlocks = 0;
 void map() {
     MallocMetaData* currentNode;
     int numBlocks = 0;
+    printf("----------start------------\n");
     for(int i=0; i<=MAX_ORDER; i++) {
         currentNode = freeBlocks[i];
         while(currentNode != nullptr) {
@@ -36,9 +37,11 @@ void map() {
             currentNode = currentNode->next;
         }
 
-        printf("Order %d: %d", i, numBlocks);
+        printf("Order %d: %d\n", i, numBlocks);
         numBlocks = 0;
     }
+
+    printf("-----------finish-----------\n");
 }
 
 MallocMetaData* accessMetaData(MallocMetaData* ptr) {
