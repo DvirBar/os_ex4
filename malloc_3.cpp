@@ -26,6 +26,21 @@ size_t numAllocatedBytes = 0;
 int numAllocatedBlocks = 0;
 
 
+void map() {
+    MallocMetaData* currentNode;
+    int numBlocks = 0;
+    for(int i=0; i<=MAX_ORDER; i++) {
+        currentNode = freeBlocks[i];
+        while(currentNode != nullptr) {
+            numBlocks++;
+            currentNode = currentNode->next;
+        }
+
+        printf("Order %d: %d", i, numBlocks);
+        numBlocks = 0;
+    }
+}
+
 MallocMetaData* accessMetaData(MallocMetaData* ptr) {
     if(ptr != nullptr && ptr->cookie != cookie) {
         exit(0xdeadbeef);
@@ -336,8 +351,8 @@ void sfree(void* p) {
         MallocMetaData* blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
         numAllocatedBytes -= ptr->size;
         numAllocatedBytes += sizeof (MallocMetaData);
-        printf("%d\n", index);
         insertToList(blockToInsert, index, blockToInsert->size);
+        map();
     } else {
         numAllocatedBytes -= ptr->size;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
@@ -346,6 +361,8 @@ void sfree(void* p) {
 
     numAllocatedBlocks--;
     ptr->is_free = true;
+
+    map();
 }
 
 bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
@@ -490,5 +507,7 @@ size_t _num_meta_data_bytes() {
 size_t _size_meta_data() {
     return sizeof(MallocMetaData);
 }
+
+
 
 
