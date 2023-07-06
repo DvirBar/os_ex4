@@ -177,13 +177,10 @@ void* splitBlock(int currentIndex, int pow) {
     leftAddr->is_free = false;
     setMetaData(&leftAddr->next, nullptr);
     numAllocatedBytes += leftAddr->size-sizeof(MallocMetaData);
-    cout << "a size" << leftAddr->size << endl;
     return leftAddr+1;
 }
 
 void* execSmalloc(size_t size) {
-
-    printf("Request size %d\n", (int)size);
     int pow = 0;
     int minBlockSize = 0;
     int index = findMinimalBlock(size, &pow, &minBlockSize);
