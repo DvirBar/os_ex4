@@ -412,7 +412,7 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
 
 MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     if(oldp->size >= size) {
-        return oldp;
+        return oldp+1;
     }
     size_t oldpCurrentSize = MIN_BLOCK;
     int oldpIndex = 0;
