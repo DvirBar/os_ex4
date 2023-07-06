@@ -199,8 +199,10 @@ TEST_CASE("test all sizes", "[malloc3]")
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,1,0,0);
     sfree(ptr);
     cout << "here11" << endl;
-    verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
+    _num_allocated_bytes();
     cout << "here12" << endl;
+    verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
+
 }
 
 TEST_CASE("Finding buddies test", "[malloc3]")
