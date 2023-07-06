@@ -154,8 +154,6 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
         setMetaData(&addr->prev, currentNode);
         setMetaData(&currentNode->next, addr);
     }
-
-    cout << "last " << freeBlocks[index]->size << endl;
 }
 
 void* splitBlock(int currentIndex, int pow) {
@@ -354,7 +352,7 @@ void sfree(void* p) {
             currentSize*=2;
             index++;
         }
-        cout << "my size " << ptr->size << endl;
+
         size_t prevSize = ptr->size;
         MallocMetaData* blockToInsert;
 
@@ -367,7 +365,6 @@ void sfree(void* p) {
         numAllocatedBytes -= prevSize;
         numAllocatedBytes += sizeof (MallocMetaData);
 
-        cout << ptr->size << endl;
         insertToList(blockToInsert, index, blockToInsert->size);
 
         ptr->is_free = true;
@@ -376,6 +373,7 @@ void sfree(void* p) {
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
     }
 
+    cout << "last " << freeBlocks[index]->size << endl;
     numAllocatedBlocks--;
 
 }
@@ -495,19 +493,19 @@ size_t _num_free_bytes() {
 
     MallocMetaData* currentNode;
     size_t numFreeBytes = 0;
-//    int internal = 0;
+    int internal = 0;
     for(int i=0; i <= MAX_ORDER; i++) {
         currentNode = freeBlocks[i];
 
         while(currentNode != nullptr) {
-//            internal++;
-//            cout << internal << endl;
+            cout << internal << endl;
+            internal++;
             numFreeBytes += currentNode->size - sizeof(MallocMetaData);
-//            cout << "after" << endl;
+            cout << "after" << endl;
             currentNode = currentNode->next;
         }
 
-//        internal = 0;
+        internal = 0;
     }
 
     return numFreeBytes;
