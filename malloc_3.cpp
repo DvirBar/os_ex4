@@ -343,6 +343,7 @@ void sfree(void* p) {
     size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
     ptr--;
+    cout << "here2.5" << endl;
     accessMetaData(ptr);
     if(ptr->is_free) {
         return;
