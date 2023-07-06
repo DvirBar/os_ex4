@@ -104,8 +104,6 @@ void insertToList(MallocMetaData* addr, int index, int size) {
     addr->cookie = cookie;
     addr->size = size;
 
-    printf("index: %d, size: %d\n", index, size);
-
     if(currentNode == nullptr) {
         freeBlocks[index] = addr;
         addr->prev = nullptr;
@@ -232,6 +230,7 @@ void* smalloc(size_t size) {
             return NULL;
         }
     } else {
+        printf("started");
         auto mmapStart = (MallocMetaData*)mmap(NULL, size+sizeof(MallocMetaData), PROT_WRITE | PROT_READ, MAP_ANONYMOUS, -1, 0);
         MallocMetaData mData {
             cookie,
@@ -451,8 +450,6 @@ size_t _num_free_blocks() {
             currentNode = currentNode->next;
         }
     }
-
-    printf("%d", (int)numFree);
 
     return numFree;
 }
