@@ -154,6 +154,8 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
         setMetaData(&addr->prev, currentNode);
         setMetaData(&currentNode->next, addr);
     }
+
+    cout << "last " << freeBlocks[index]->size << endl;
 }
 
 void* splitBlock(int currentIndex, int pow) {
@@ -372,8 +374,9 @@ void sfree(void* p) {
         numAllocatedBytes -= ptr->size;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
     }
-
+    cout << "my index " << index << endl;
     cout << "last " << freeBlocks[index]->size << endl;
+
     numAllocatedBlocks--;
 
 }
