@@ -365,6 +365,7 @@ void sfree(void* p) {
         numAllocatedBytes -= ptr->size;
         cout << ptr->size << endl;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
+        cout << "unmap" << endl;
     }
 
 
