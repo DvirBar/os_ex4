@@ -4,12 +4,15 @@
 #include <sys/mman.h>
 #include <time.h>
 #include <stdio.h>
+#include <iostream>
 
 #define MAX_ORDER 10
 #define MIN_BLOCK 128
 #define BLOCK_SIZE (MIN_BLOCK*1024)
 #define NUM_BLOCKS 32
 #define TOTAL_BLOCK_SIZE (BLOCK_SIZE*NUM_BLOCKS)
+
+using namespace std;
 
 struct MallocMetaData {
     int cookie;
@@ -174,11 +177,13 @@ void* splitBlock(int currentIndex, int pow) {
     leftAddr->is_free = false;
     setMetaData(&leftAddr->next, nullptr);
     numAllocatedBytes += leftAddr->size-sizeof(MallocMetaData);
-
+    cout << leftAddr->size << endl;
     return leftAddr+1;
 }
 
 void* execSmalloc(size_t size) {
+
+    printf("Request size %d\n", (int)size);
     int pow = 0;
     int minBlockSize = 0;
     int index = findMinimalBlock(size, &pow, &minBlockSize);
@@ -261,6 +266,7 @@ void* smalloc(size_t size) {
         numAllocatedBytes += size;
     }
 
+    printf("size f %d for %d", (MallocMetaData*)ptr-)
 
     numAllocatedBlocks++;
     return ptr;
