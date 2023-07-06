@@ -371,8 +371,6 @@ void sfree(void* p) {
 
     numAllocatedBlocks--;
     ptr->is_free = true;
-
-    map();
 }
 
 bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
