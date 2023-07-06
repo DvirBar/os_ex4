@@ -332,8 +332,7 @@ void sfree(void* p) {
             currentSize*=2;
             index++;
         }
-        printf("%ld\n", sizeof(MallocMetaData));
-        printf("%d", (int)ptr->size);
+
         MallocMetaData* blockToInsert = mergeBlocks(ptr, index, MAX_ORDER);
         numAllocatedBytes -= ptr->size;
         numAllocatedBytes += sizeof (MallocMetaData);
