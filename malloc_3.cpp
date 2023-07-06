@@ -381,22 +381,18 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
     bool buddyFound = false;
     MallocMetaData* lastLeftBlock = oldp;
     size_t size = lastLeftBlock->size;
-    cout << "is mergeable" << endl;
     do {
         buddyFound = false;
         auto buddy = (MallocMetaData*)((unsigned long)lastLeftBlock^(size));
-        cout << "is mergeable2" << endl;
         auto currentNode = accessMetaData(freeBlocks[index]);
-        cout << "is mergeable3" << endl;
         while(accessMetaData(currentNode) != nullptr && currentNode != buddy) {
             setMetaData(&currentNode,currentNode->next);
         }
-        cout << "is mergeable3" << endl;
         if(accessMetaData(currentNode) != nullptr) {
             buddyFound = true;
             accessMetaData(buddy);
         }
-        cout << "is mergeable3" << endl;
+
         if(buddyFound) {
             if(lastLeftBlock >= buddy) {
                 lastLeftBlock = buddy;
@@ -429,14 +425,12 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
         index++;
     }
 
-    cout << "here2" << endl;
 
     if(isMergeable(oldp, oldpIndex, size)) {
-        numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
+        numAllocatedBytes -= oldp->size;
+        numAllocatedBytes += sizeof(MallocMetaData);
         MallocMetaData* addr = mergeBlocks(oldp, &oldpIndex, index);
         addr->cookie = cookie;
-        cout << "here1" << endl;
-        // TODO: nothing is inserted
         numAllocatedBytes += addr->size-sizeof (MallocMetaData);
         return addr+1;
     }
