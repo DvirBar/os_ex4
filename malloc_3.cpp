@@ -80,19 +80,18 @@ void setMetaData(MallocMetaData** srcPtr, MallocMetaData* ptrToSet) {
 //    return pbrk;
 //}
 
-int findMinimalBlock(size_t size, int* pow, int* indexBlockSize) {
-    *indexBlockSize = 1;
+int findMinimalBlock(size_t size, int* pow, int* minBlockSize) {
+    *minBlockSize = 1;
     int index = 0;
 
-    while(size > *indexBlockSize*MIN_BLOCK-sizeof(MallocMetaData)) {
+    while(size > *minBlockSize*MIN_BLOCK-sizeof(MallocMetaData)) {
         index++;
-        *indexBlockSize*=2;
+        *minBlockSize*=2;
     }
 
     *pow = index;
 
     while(index < MAX_ORDER+1 && accessMetaData(freeBlocks[index]) == nullptr) {
-        *indexBlockSize*=2;
         index++;
     }
 
@@ -158,13 +157,15 @@ void* splitBlock(int currentIndex, int pow) {
 
     leftAddr->is_free = false;
     setMetaData(&leftAddr->next, nullptr);
+    numAllocatedBytes += leftAddr->size-sizeof(MallocMetaData);
+
     return leftAddr+1;
 }
 
 void* execSmalloc(size_t size) {
     int pow = 0;
-    int indexBlockSize = 0;
-    int index = findMinimalBlock(size, &pow, &indexBlockSize);
+    int minBlockSize = 0;
+    int index = findMinimalBlock(size, &pow, &minBlockSize);
     if(index > MAX_ORDER) {
         return nullptr;
     }
@@ -230,8 +231,6 @@ void* smalloc(size_t size) {
         if(ptr == nullptr) {
             return NULL;
         }
-
-
     } else {
         auto mmapStart = (MallocMetaData*)mmap(NULL, size+sizeof(MallocMetaData), PROT_WRITE | PROT_READ, MAP_ANONYMOUS, -1, 0);
         MallocMetaData mData {
@@ -243,9 +242,10 @@ void* smalloc(size_t size) {
         };
         *(mmapStart) = mData;
         ptr = mmapStart+1;
+        numAllocatedBytes += size;
     }
 
-    numAllocatedBytes += size;
+
     numAllocatedBlocks++;
     return ptr;
 }
@@ -314,6 +314,7 @@ MallocMetaData* mergeBlocks(MallocMetaData* ptr, int index, int maxSize) {
         index++;
     } while (buddyFound && index < maxSize);
 
+    numAllocatedBytes += lastLeftBlock->size-sizeof (MallocMetaData);
     return lastLeftBlock;
 }
 
@@ -401,7 +402,6 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     }
 
     if(isMergeable(oldp, oldpIndex, size)) {
-        numAllocatedBytes += size;
         numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
         return mergeBlocks(oldp, oldpIndex, index)+1;
     }
