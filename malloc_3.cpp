@@ -430,15 +430,18 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     if(isMergeable(oldp, oldpIndex, size)) {
         numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
         MallocMetaData* addr = mergeBlocks(oldp, &oldpIndex, index);
+        cout << "here1" << endl;
         // TODO: nothing is inserted
         numAllocatedBytes += addr->size-sizeof (MallocMetaData);
         return addr+1;
     }
 
     void* ptr = smalloc(size);
+    cout << "here2" << endl;
     if(ptr != NULL) {
         sfree(oldp);
     }
+    cout << "here" << endl;
 
     return (MallocMetaData*)ptr;
 }
@@ -454,6 +457,8 @@ void* srealloc(void* oldp, size_t size) {
     if(size < BLOCK_SIZE) {
         return reallocHeap(ptr, size);
     }
+
+
 
     if(ptr->size == size) {
         return oldp;
