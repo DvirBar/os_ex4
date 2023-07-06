@@ -499,6 +499,7 @@ size_t _num_free_bytes() {
             internal++;
             cout << internal << endl;
             numFreeBytes += currentNode->size - sizeof(MallocMetaData);
+            cout << "after" << endl;
             currentNode = currentNode->next;
         }
 
