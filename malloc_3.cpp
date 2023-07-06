@@ -361,16 +361,14 @@ void sfree(void* p) {
         numAllocatedBytes += sizeof (MallocMetaData);
 //        printf("n2 %d\n", (int)numAllocatedBytes);
         insertToList(blockToInsert, index, blockToInsert->size);
+        ptr->is_free = true;
     } else {
         numAllocatedBytes -= ptr->size;
-        cout << ptr->size << endl;
         munmap(ptr, ptr->size+sizeof(MallocMetaData));
-        cout << "unmap" << endl;
     }
 
-
     numAllocatedBlocks--;
-    ptr->is_free = true;
+
 }
 
 bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
