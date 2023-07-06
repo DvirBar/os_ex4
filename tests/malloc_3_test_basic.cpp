@@ -43,10 +43,9 @@ void performCorruption() {
     do                                                                                                                 \
     {                                                                                                                  \
         REQUIRE(_num_allocated_blocks() == allocated_blocks);                                                          \
-        REQUIRE(_num_allocated_blocks() == free_blocks); \
-        REQUIRE(_num_free_blocks() == free_blocks); \
+        REQUIRE(_num_free_bytes() == (free_bytes));    \
         REQUIRE(_num_allocated_bytes() == (allocated_bytes));                                              \
-                                                                           \
+        REQUIRE(_num_free_blocks() == free_blocks);                                                                    \
         REQUIRE(_num_free_bytes() == (free_bytes));                                                        \
         REQUIRE(_num_meta_data_bytes() == (_size_meta_data() * allocated_blocks));                         \
     } while (0)
