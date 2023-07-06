@@ -412,7 +412,6 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
 
 MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     if(oldp->size >= size) {
-        cout << "size !!" << oldp->size << endl;
         return oldp;
     }
     size_t oldpCurrentSize = MIN_BLOCK;
@@ -458,9 +457,12 @@ void* srealloc(void* oldp, size_t size) {
     if(oldp == NULL) {
         return smalloc(size);
     }
+
+
     MallocMetaData* newPtr;
     // TODO: can srealloc init the data struct when oldp isn't null?
     auto ptr = ((MallocMetaData*)oldp)-1;
+    cout << "size !!" << ptr->size << endl;
     accessMetaData(ptr);
 
     cout << ptr->size << endl;
