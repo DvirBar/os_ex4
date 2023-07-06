@@ -104,6 +104,7 @@ void insertToList(MallocMetaData* addr, int index, int size) {
     addr->cookie = cookie;
     addr->size = size;
 
+    numAllocatedBytes -= sizeof(MallocMetaData);
     if(currentNode == nullptr) {
         freeBlocks[index] = addr;
         addr->prev = nullptr;
@@ -332,6 +333,7 @@ void sfree(void* p) {
             currentSize*=2;
             index++;
         }
+
         printf("%d", (int)ptr->size);
         MallocMetaData* blockToInsert = mergeBlocks(ptr, index, MAX_ORDER);
         numAllocatedBytes -= ptr->size+sizeof(MallocMetaData);
