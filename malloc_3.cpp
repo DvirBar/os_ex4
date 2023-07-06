@@ -343,6 +343,7 @@ void sfree(void* p) {
     size_t currentSize = MIN_BLOCK;
     auto ptr = (MallocMetaData*)p;
     ptr--;
+    cout << ptr->size << endl;
     accessMetaData(ptr);
     if(ptr->is_free) {
         return;
@@ -438,9 +439,7 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     }
 
     void* ptr = smalloc(size);
-    cout << "here2" << endl;
     if(ptr != NULL) {
-        cout << "free" << endl;
         oldp++;
         sfree(oldp);
     }
