@@ -495,6 +495,7 @@ size_t _num_free_bytes() {
     int internal = 0;
     for(int i=0; i <= MAX_ORDER; i++) {
         currentNode = freeBlocks[i];
+        cout << i << endl;
         while(currentNode != nullptr) {
             internal++;
             cout << internal << endl;
