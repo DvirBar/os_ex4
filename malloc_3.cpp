@@ -380,21 +380,22 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
     bool buddyFound = false;
     MallocMetaData* lastLeftBlock = oldp;
     size_t size = lastLeftBlock->size;
-
+    cout << "is mergeable" << endl;
     do {
         buddyFound = false;
         auto buddy = (MallocMetaData*)((unsigned long)lastLeftBlock^(size));
         accessMetaData(buddy);
+        cout << "is mergeable2" << endl;
         auto currentNode = accessMetaData(freeBlocks[index]);
-
+        cout << "is mergeable3" << endl;
         while(accessMetaData(currentNode) != nullptr && currentNode != buddy) {
             setMetaData(&currentNode,currentNode->next);
         }
-
+        cout << "is mergeable3" << endl;
         if(accessMetaData(currentNode) != nullptr) {
             buddyFound = true;
         }
-
+        cout << "is mergeable3" << endl;
         if(buddyFound) {
             if(lastLeftBlock >= buddy) {
                 lastLeftBlock = buddy;
@@ -448,17 +449,15 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
 
 
 void* srealloc(void* oldp, size_t size) {
-    cout << "testing here1" << endl;
     if(oldp == NULL) {
-        cout << "testing here2" << endl;
         return smalloc(size);
     }
     MallocMetaData* newPtr;
     // TODO: can srealloc init the data struct when oldp isn't null?
     auto ptr = ((MallocMetaData*)oldp)-1;
 
-    cout << "testing here" << endl;
     if(size <= BLOCK_SIZE) {
+        cout << "testing here" << endl;
         return reallocHeap(ptr, size);
     }
 
