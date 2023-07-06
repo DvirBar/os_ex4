@@ -3,8 +3,6 @@
 #include <cstring>
 #include <sys/mman.h>
 #include <time.h>
-#include <stdio.h>
-#include <iostream>
 
 #define MAX_ORDER 10
 #define MIN_BLOCK 128
