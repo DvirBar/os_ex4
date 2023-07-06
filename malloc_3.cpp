@@ -353,14 +353,20 @@ void sfree(void* p) {
             currentSize*=2;
             index++;
         }
-
+        cout << ptr->size << endl;
         size_t prevSize = ptr->size;
-        MallocMetaData* blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
-//        printf("n1 %d, size %d\n", (int)numAllocatedBytes, (int)ptr->size);
+        MallocMetaData* blockToInsert;
+
+        if(index < MAX_ORDER) {
+            blockToInsert = mergeBlocks(ptr, &index, MAX_ORDER);
+        } else {
+            blockToInsert = ptr;
+        }
+
         numAllocatedBytes -= prevSize;
         numAllocatedBytes += sizeof (MallocMetaData);
-//        printf("n2 %d\n", (int)numAllocatedBytes);
         insertToList(blockToInsert, index, blockToInsert->size);
+
         ptr->is_free = true;
     } else {
         numAllocatedBytes -= ptr->size;
@@ -424,7 +430,6 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
 
     if(isMergeable(oldp, oldpIndex, size)) {
         numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
-
         MallocMetaData* addr = mergeBlocks(oldp, &oldpIndex, index);
         // TODO: nothing is inserted
         numAllocatedBytes += addr->size-sizeof (MallocMetaData);
