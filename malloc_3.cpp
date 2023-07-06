@@ -384,7 +384,6 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
     do {
         buddyFound = false;
         auto buddy = (MallocMetaData*)((unsigned long)lastLeftBlock^(size));
-        accessMetaData(buddy);
         cout << "is mergeable2" << endl;
         auto currentNode = accessMetaData(freeBlocks[index]);
         cout << "is mergeable3" << endl;
@@ -394,6 +393,7 @@ bool isMergeable(MallocMetaData* oldp, int index, size_t requestedSize) {
         cout << "is mergeable3" << endl;
         if(accessMetaData(currentNode) != nullptr) {
             buddyFound = true;
+            accessMetaData(buddy);
         }
         cout << "is mergeable3" << endl;
         if(buddyFound) {
