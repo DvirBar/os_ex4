@@ -230,9 +230,7 @@ void* smalloc(size_t size) {
             return NULL;
         }
     } else {
-        printf("started\n");
         auto mmapStart = (MallocMetaData*)mmap(NULL, size+sizeof(MallocMetaData), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-        printf("started2\n");
         MallocMetaData mData {
             cookie,
             size,
@@ -241,7 +239,6 @@ void* smalloc(size_t size) {
             nullptr
         };
         mmapStart[0] = mData;
-        printf("started3\n");
         ptr = mmapStart+1;
         numAllocatedBytes += size;
     }
