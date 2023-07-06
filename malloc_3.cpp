@@ -448,7 +448,9 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
 
 
 void* srealloc(void* oldp, size_t size) {
+    cout << "testing here1" << endl;
     if(oldp == NULL) {
+        cout << "testing here2" << endl;
         return smalloc(size);
     }
     MallocMetaData* newPtr;
