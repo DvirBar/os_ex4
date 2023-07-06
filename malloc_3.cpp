@@ -143,7 +143,6 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
         if(accessMetaData(currentNode->prev) != nullptr) {
             setMetaData(&currentNode->prev->next, addr);
         } else {
-            cout << "set start" << endl;
             freeBlocks[index] = addr;
         }
 
@@ -155,6 +154,8 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
         setMetaData(&addr->prev, currentNode);
         setMetaData(&currentNode->next, addr);
     }
+
+    cout << "last " << freeBlocks[index]->size << endl;
 }
 
 void* splitBlock(int currentIndex, int pow) {
