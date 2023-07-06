@@ -266,8 +266,6 @@ void* smalloc(size_t size) {
         numAllocatedBytes += size;
     }
 
-    printf("size f %d for %d", (MallocMetaData*)ptr-)
-
     numAllocatedBlocks++;
     return ptr;
 }
