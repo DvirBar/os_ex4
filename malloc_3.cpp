@@ -133,12 +133,13 @@ void insertToList(MallocMetaData* addr, int index, size_t size) {
     }
 
     while(accessMetaData(currentNode->next) != nullptr && currentNode < addr) {
+        cout << "iter" << endl;
         currentNode = currentNode->next;
     }
 
     accessMetaData(addr->prev);
     accessMetaData(addr->next);
-
+    cout << "index " << index << endl;
     if(currentNode > addr) {
         if(accessMetaData(currentNode->prev) != nullptr) {
             setMetaData(&currentNode->prev->next, addr);
@@ -365,6 +366,8 @@ void sfree(void* p) {
 
         numAllocatedBytes -= prevSize;
         numAllocatedBytes += sizeof (MallocMetaData);
+
+        cout << ptr->size << endl;
         insertToList(blockToInsert, index, blockToInsert->size);
 
         ptr->is_free = true;
@@ -492,19 +495,19 @@ size_t _num_free_bytes() {
 
     MallocMetaData* currentNode;
     size_t numFreeBytes = 0;
-    int internal = 0;
+//    int internal = 0;
     for(int i=0; i <= MAX_ORDER; i++) {
         currentNode = freeBlocks[i];
-        cout << i << endl;
+
         while(currentNode != nullptr) {
-            internal++;
-            cout << internal << endl;
+//            internal++;
+//            cout << internal << endl;
             numFreeBytes += currentNode->size - sizeof(MallocMetaData);
-            cout << "after" << endl;
+//            cout << "after" << endl;
             currentNode = currentNode->next;
         }
 
-        internal = 0;
+//        internal = 0;
     }
 
     return numFreeBytes;
