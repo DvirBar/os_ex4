@@ -234,12 +234,12 @@ void init() {
 }
 
 void* smalloc(size_t size) {
-    if(size==0 || size>pow(10,8)) {
-        return NULL;
-    }
-
     if(!hasAllocated) {
         init();
+    }
+
+    if(size==0 || size>pow(10,8)) {
+        return NULL;
     }
 
     void* ptr = NULL;
@@ -477,7 +477,7 @@ void* srealloc(void* oldp, size_t size) {
 
 size_t _num_free_blocks() {
     if(!hasAllocated) {
-        return NUM_BLOCKS;
+        return 0;
     }
 
     MallocMetaData* currentNode;
