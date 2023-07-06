@@ -349,7 +349,7 @@ void sfree(void* p) {
         return;
     }
 
-    if(ptr->size < BLOCK_SIZE) {
+    if(ptr->size <= BLOCK_SIZE) {
         while(currentSize < ptr->size) {
             currentSize*=2;
             index++;
