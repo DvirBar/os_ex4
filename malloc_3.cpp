@@ -102,8 +102,10 @@ int findMinimalBlock(size_t size, int* pow, int* indexBlockSize) {
 void insertToList(MallocMetaData* addr, int index, int size) {
     MallocMetaData* currentNode = accessMetaData(freeBlocks[index]);
 
+    addr->cookie = cookie;
     addr->size = size;
 
+    printf("%d", size);
 
     if(currentNode == nullptr) {
         freeBlocks[index] = addr;
@@ -137,7 +139,7 @@ void insertToList(MallocMetaData* addr, int index, int size) {
     }
 }
 
-void* splitBlock(int currentIndex, int pow, int indexBlockSize) {
+void* splitBlock(int currentIndex, int pow) {
     MallocMetaData* leftAddr = accessMetaData(freeBlocks[currentIndex]);
     auto leftAddrNum = (unsigned long)leftAddr;
 
@@ -148,8 +150,7 @@ void* splitBlock(int currentIndex, int pow, int indexBlockSize) {
     }
 
     while(currentIndex > pow) {
-        indexBlockSize/=2;
-        auto rightAddrNum = leftAddrNum+indexBlockSize;
+        auto rightAddrNum = leftAddrNum+leftAddr->size/2;
         insertToList((MallocMetaData*)rightAddrNum, currentIndex-1, (int)leftAddr->size/2);
         leftAddr->size/=2;
         currentIndex--;
@@ -168,7 +169,7 @@ void* execSmalloc(size_t size) {
         return nullptr;
     }
 
-    return splitBlock(index, pow, indexBlockSize);
+    return splitBlock(index, pow);
 }
 
 
@@ -230,7 +231,7 @@ void* smalloc(size_t size) {
             return NULL;
         }
 
-        numAllocatedBytes += size;
+
     } else {
         auto mmapStart = (MallocMetaData*)mmap(NULL, size+sizeof(MallocMetaData), PROT_WRITE | PROT_READ, MAP_ANONYMOUS, -1, 0);
         MallocMetaData mData {
@@ -240,11 +241,11 @@ void* smalloc(size_t size) {
             nullptr,
             nullptr
         };
-        numAllocatedBytes += size;
         *(mmapStart) = mData;
         ptr = mmapStart+1;
     }
 
+    numAllocatedBytes += size;
     numAllocatedBlocks++;
     return ptr;
 }
@@ -450,6 +451,8 @@ size_t _num_free_blocks() {
             currentNode = currentNode->next;
         }
     }
+
+    printf("%d", (int)numFree);
 
     return numFree;
 }
