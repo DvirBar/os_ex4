@@ -432,6 +432,7 @@ MallocMetaData* reallocHeap(MallocMetaData* oldp, size_t size) {
     if(isMergeable(oldp, oldpIndex, size)) {
         numAllocatedBytes -= oldp->size+sizeof(MallocMetaData);
         MallocMetaData* addr = mergeBlocks(oldp, &oldpIndex, index);
+        addr->cookie = cookie;
         cout << "here1" << endl;
         // TODO: nothing is inserted
         numAllocatedBytes += addr->size-sizeof (MallocMetaData);
