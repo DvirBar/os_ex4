@@ -122,10 +122,11 @@ TEST_CASE("Challenge 0 - Memory Utilization", "[malloc3]")
     // Free all blocks
     sfree(ptr3);
     sfree(ptr4);
+    printf("after\n");
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,1,MAX_ELEMENT_SIZE+100);
+    printf("after2\n");
     sfree(ptr1); //free again
     sfree(ptr2);
-    printf("after1");
     verify_block_by_order(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0);
 //    verify_size_with_large_blocks(base, 0);
 //    verify_size(base);
